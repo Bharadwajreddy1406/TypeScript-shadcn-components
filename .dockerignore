@@ -1,15 +1,5 @@
-# Ignore node_modules (we’ll reinstall them inside the container)
 node_modules
-npm-debug.log
-yarn-error.log
-
-# Ignore git history and metadata
+dist
 .git
-.gitignore
-
-# Ignore local environment files
-.env.local
-.env
-.DS_Store
+.dockerignore
 .vscode
-.idea

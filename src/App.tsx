@@ -1,13 +1,13 @@
 import { Routes ,Route} from 'react-router-dom'
 import './App.css'
-import { InterviewDashboard } from './components/interview-dashboard'
 
+import Tempo from './components/Tempo'
 function App() {
 
   return (
     <>
       <Routes>
-        <Route path="/" element={<InterviewDashboard />} />
+        <Route path="/" element={<Tempo />} />
       </Routes>
     </>
   )

@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, ReactEventHandler } from "react"
+import { useState, useEffect, useCallback, ReactEventHandler, SetStateAction } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { Search, Plus, Loader2, Play, Square, Trash2, ArrowRight, AlertTriangle } from "lucide-react"
 import { Button } from "@/components/ui/button"
@@ -42,6 +42,15 @@ const subjects = ["JavaScript", "Python", "Java", "C++", "Ruby"]
 const branches = ["Computer Science", "Information Technology", "Software Engineering"]
 const sections = ["FS", "Elite", "PreFS"]
 
+interface Interview {
+  id: number;
+  name: string;
+  subject: string;
+  branch: string;
+  section: string;
+  status: string;
+}
+
 export function InterviewDashboard() {
   const [interviews, setInterviews] = useState(mockInterviews)
   const [searchTerm, setSearchTerm] = useState("")
@@ -51,9 +60,9 @@ export function InterviewDashboard() {
   const [isLoading, setIsLoading] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
   const [isDialogOpen, setIsDialogOpen] = useState(false)
-  const [loadingStates, setLoadingStates] = useState({})
+  const [loadingStates, setLoadingStates] = useState<LoadingStates>({})
   const [restartDialogOpen, setRestartDialogOpen] = useState(false)
-  const [interviewToRestart, setInterviewToRestart] = useState(null)
+  const [interviewToRestart, setInterviewToRestart] = useState<Interview | null>(null)
 
   useEffect(() => {
     const checkIsMobile = () => setIsMobile(window.innerWidth < 768)
@@ -61,15 +70,6 @@ export function InterviewDashboard() {
     window.addEventListener('resize', checkIsMobile)
     return () => window.removeEventListener('resize', checkIsMobile)
   }, [])
-
-  interface Interview {
-    id: number;
-    name: string;
-    subject: string;
-    branch: string;
-    section: string;
-    status: string;
-  }
 
   interface LoadingStates {
     [key: number]: {
@@ -100,7 +100,7 @@ export function InterviewDashboard() {
     setIsDialogOpen(false);
   };
 
-  const handleStartInterview = useCallback((id) => {
+  const handleStartInterview = useCallback((id: number) => {
     const interview = interviews.find(i => i.id === id)
     if (interview && interview.status === "Completed") {
       setInterviewToRestart(interview)
@@ -126,7 +126,7 @@ export function InterviewDashboard() {
     }
   }
 
-  const handleEndInterview = useCallback((id) => {
+  const handleEndInterview = useCallback((id:number) => {
     simulateLoading(() => {
       setInterviews(interviews => interviews.map(interview => 
         interview.id === id ? { ...interview, status: "Completed" } : interview
@@ -134,7 +134,7 @@ export function InterviewDashboard() {
     }, id, 'end')
   }, [])
 
-  const handleDeleteInterview = useCallback((id) => {
+  const handleDeleteInterview = useCallback((id:number) => {
     simulateLoading(() => {
       setInterviews(interviews => interviews.filter(interview => interview.id !== id))
     }, id, 'delete')
@@ -171,17 +171,17 @@ export function InterviewDashboard() {
     }, 1000)
   }
 
-  const handleSearchInputChange = (e) => {
+  const handleSearchInputChange = (e: { target: { value: SetStateAction<string> } }) => {
     setSearchTerm(e.target.value)
   }
 
-  const handleSearchKeyPress = (e) => {
+  const handleSearchKeyPress = (e: { key: string }) => {
     if (e.key === 'Enter') {
       handleSearch()
     }
   }
 
-  const handleSort = (value) => {
+  const handleSort = (value: keyof Interview) => {
     setIsLoading(true)
     setTimeout(() => {
       setSortBy(value)
@@ -190,12 +190,12 @@ export function InterviewDashboard() {
     }, 500)
   }
 
-  const handleItemsPerPageChange = (value) => {
+  const handleItemsPerPageChange = (value: any) => {
     setItemsPerPage(Number(value))
     setCurrentPage(1)
   }
 
-  const simulateLoading = (callback, id, action) => {
+  const simulateLoading = (callback: { (): void; (): void; (): void; (): void; (): void }, id: number, action: string) => {
     setLoadingStates(prev => ({ ...prev, [id]: { ...prev[id], [action]: true } }))
     setTimeout(() => {
       callback()
@@ -273,7 +273,7 @@ export function InterviewDashboard() {
   }
 
   return (
-    <div style={{"width":"100%"}} className="container mx-auto p-4 space-y-4">
+    <div className="container mx-auto pb-4 pl-4 pr-4 pt-20 space-y-4">
       <h1 className="text-2xl font-bold mb-4">Interview Dashboard</h1>
       <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
         <div className="relative w-full sm:w-64 flex">
@@ -402,9 +402,9 @@ export function InterviewDashboard() {
   )
 }
 
-function CreateInterviewForm({ onSubmit }) {
+function CreateInterviewForm({ onSubmit }: { onSubmit: (newInterview: Omit<Interview, 'id' | 'status'>) => void }) {
   const [name, setName] = useState("")
-  const [selectedSubjects, setSelectedSubjects] = useState([])
+  const [selectedSubjects, setSelectedSubjects] = useState<string[]>([])
   const [branch, setBranch] = useState("")
   const [section, setSection] = useState("")
 
@@ -478,7 +478,19 @@ function CreateInterviewForm({ onSubmit }) {
   )
 }
 
-function InterviewCard({ interview, onStart, onEnd, onDelete, loadingStates }) {
+interface InterviewCardProps {
+  interview: Interview;
+  onStart: (id: number) => void;
+  onEnd: (id: number) => void;
+  onDelete: (id: number) => void;
+  loadingStates: {
+    start?: boolean;
+    end?: boolean;
+    delete?: boolean;
+  };
+}
+
+function InterviewCard({ interview, onStart, onEnd, onDelete, loadingStates }: InterviewCardProps) {
   return (
     <motion.div
       className="bg-white bg-opacity-20 backdrop-blur-lg backdrop-filter border border-gray-200 p-6 rounded-lg shadow-xl"
