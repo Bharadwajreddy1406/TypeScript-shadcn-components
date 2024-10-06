@@ -10,7 +10,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { Link } from 'react-router-dom'
+import { Link, Outlet } from 'react-router-dom'
 const navItems = [
   { name: 'Dashboard', href: '#dashboard' },
   { name: 'Completed Interviews', href: '#completed-interviews' },
@@ -24,7 +24,8 @@ export function NavbarComponent() {
 
   return (
     <>
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-white bg-opacity-20 backdrop-filter backdrop-blur-lg">
+      {/* <nav className="fixed top-0 left-0 right-0 z-50 bg-white bg-opacity-20 backdrop-filter backdrop-blur-lg bg-gradient-to-t  from-blue-900/50 to-purple-800/50"> */}
+      <nav className="fixed top-0 left-0 right-0 z-50 shadow-lg bg-white bg-opacity-20 backdrop-filter backdrop-blur-lg bg-gradient-to-b from-teal-100/80 to-teal-100/40">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <div className="flex-shrink-0">
@@ -169,6 +170,7 @@ export function NavbarComponent() {
           )}
         </AnimatePresence>
       </nav>
+      <Outlet />
 
       {/* Sample Hero Section */}
       {/* <div className="min-h-screen bg-gradient-to-br from-purple-400 via-pink-500 to-red-500 flex items-center justify-center">

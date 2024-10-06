@@ -3,3 +3,13 @@
   margin: 0;
   padding:0
 }
+
+html, body {
+  height: 100%;
+}
+
+
+body {
+  background: linear-gradient(to bottom right, #1a202c, #234e52, #2d3748);
+  padding-top: 20px;
+}
