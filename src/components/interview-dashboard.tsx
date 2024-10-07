@@ -301,7 +301,7 @@ export function InterviewDashboard() {
     if (paginatedInterviews.length === 0) {
       return (
         <TableRow>
-          <TableCell colSpan={6} className="h-24 text-white text-center">
+          <TableCell colSpan={6} className="h-24 text-black text-center">
             <AlertTriangle className="mx-auto h-8 w-8 text-yellow-500 mb-2" />
             No interviews are present
           </TableCell>
@@ -310,7 +310,7 @@ export function InterviewDashboard() {
     }
 
     const rows = paginatedInterviews.map((interview) => (
-      <TableRow className="text-white" key={interview.id}>
+      <TableRow className="text-black" key={interview.id}>
         <TableCell>{interview.name}</TableCell>
         <TableCell>{interview.subject}</TableCell>
         <TableCell>{interview.branch}</TableCell>
@@ -389,8 +389,8 @@ export function InterviewDashboard() {
   };
 
   return (
-    <div className="container mx-auto pb-4 pl-4 pr-4 pt-14 space-y-4">
-      <h1 className="text-2xl text-teal-100 font-bold mb-4">
+    <div className="container mx-auto px-4 mt-20 space-y-4">
+      <h1 className="text-2xl text-black font-bold mb-4">
         Interview Dashboard
       </h1>
       <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
@@ -410,7 +410,7 @@ export function InterviewDashboard() {
         </div>
         <div className="flex items-center gap-2 w-full sm:w-auto">
           <Select onValueChange={handleSort} defaultValue={sortBy}>
-            <SelectTrigger className="w-full sm:w-[180px] bg-teal-100">
+            <SelectTrigger className="w-full sm:w-[180px] bg-slate-50">
               <SelectValue placeholder="Sort by" />
             </SelectTrigger>
             <SelectContent className="">
@@ -463,16 +463,16 @@ export function InterviewDashboard() {
           </AnimatePresence>
         </div>
       ) : (
-        <div className="w-full rounded-lg  overflow-hidden bg-opacity-10 backdrop-blur-lg backdrop-filter border border-gray-200 shadow-xl bg-gradient-to-br  from-transparent via-teal-00 to-teal-900 ">
+        <div className="w-full rounded-lg  overflow-hidden bg-opacity-10 backdrop-blur-lg backdrop-filter border border-gray-200 shadow-xl  ">
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead className="text-white">Name</TableHead>
-                <TableHead className="text-white">Subject</TableHead>
-                <TableHead className="text-white">Branch</TableHead>
-                <TableHead className="text-white">Section</TableHead>
-                <TableHead className="text-white">Status</TableHead>
-                <TableHead className="text-white">Actions</TableHead>
+                <TableHead >Name</TableHead>
+                <TableHead >Subject</TableHead>
+                <TableHead >Branch</TableHead>
+                <TableHead >Section</TableHead>
+                <TableHead >Status</TableHead>
+                <TableHead >Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>{renderInterviewRows()}</TableBody>
@@ -484,7 +484,7 @@ export function InterviewDashboard() {
           onValueChange={handleItemsPerPageChange}
           defaultValue={itemsPerPage.toString()}
         >
-          <SelectTrigger className="w-[180px] bg-teal-100">
+          <SelectTrigger className="w-[180px] bg-slate-50">
             <SelectValue placeholder="Interviews per page" />
           </SelectTrigger>
           <SelectContent>
