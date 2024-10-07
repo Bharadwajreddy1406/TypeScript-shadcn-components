@@ -53,12 +53,12 @@ const weeklyTrends = [
   { name: 'Fri', productivity: 90, focus: 85, quality: 95 },
 ]
 
-const individualGoals = [
-  { name: 'Complete React Course', progress: 75 },
-  { name: 'Contribute to Open Source', progress: 40 },
-  { name: 'Build Portfolio Website', progress: 60 },
-  { name: 'Learn GraphQL', progress: 25 },
-]
+// const individualGoals = [
+//   { name: 'Complete React Course', progress: 75 },
+//   { name: 'Contribute to Open Source', progress: 40 },
+//   { name: 'Build Portfolio Website', progress: 60 },
+//   { name: 'Learn GraphQL', progress: 25 },
+// ]
 
 const COLORS = ['#FF6B6B', '#4ECDC4', '#45B7D1', '#FFA07A', '#98D8C8']
 
