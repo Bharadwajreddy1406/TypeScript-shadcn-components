@@ -6,6 +6,8 @@ import { NavbarComponent } from './components/navbar'
 import { InterviewDashboard } from './components/interview-dashboard'
 import { CompletedInterviews } from './components/completed-interviews'
 import { StudentPerformance } from './components/Student-Performance'
+import Studentlist from './components/Student-list'
+import  InterviewStudentList from './components/interview-student-list'
 function App() {
 
   return (
@@ -17,6 +19,8 @@ function App() {
           <Route path='/interviews' element={<StudentInterviews/>} />
           <Route path='/completed-interviews' element={<CompletedInterviews/>} />
           <Route path='/student-performance' element={<StudentPerformance/>} />
+          <Route path='/student-list' element={<Studentlist/>} />
+          <Route path='/interview-student-list' element={<InterviewStudentList/>} />
         </Route>
       </Routes>
     </>
