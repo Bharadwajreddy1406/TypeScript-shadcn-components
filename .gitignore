@@ -1,3 +1,4 @@
+# Frontend
 frontend/node_modules
 frontend/dist
 frontend/.env
@@ -12,6 +13,7 @@ frontend/.pnp
 frontend/.pnp.js
 frontend/.parcel-cache
 
+# Backend
 backend/node_modules
 backend/dist
 backend/.env
