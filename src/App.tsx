@@ -8,6 +8,9 @@ import { CompletedInterviews } from './components/completed-interviews'
 import { StudentPerformance } from './components/Student-Performance'
 import Studentlist from './components/Student-list'
 import  InterviewStudentList from './components/interview-student-list'
+import { AdminStudentDashboard } from './components/AdminStudentDashboard'
+import { LoginPageComponent } from './components/login-page'
+import { InterviewComponent } from './components/InterviewComponent'
 function App() {
 
   return (
@@ -21,6 +24,9 @@ function App() {
           <Route path='/student-performance' element={<StudentPerformance/>} />
           <Route path='/student-list' element={<Studentlist/>} />
           <Route path='/interview-student-list' element={<InterviewStudentList/>} />
+          <Route path='/students' element={<AdminStudentDashboard/>}/>
+          <Route path='login' element={<LoginPageComponent/>} />
+          <Route path="/interview" element={<InterviewComponent />} />
         </Route>
       </Routes>
     </>
