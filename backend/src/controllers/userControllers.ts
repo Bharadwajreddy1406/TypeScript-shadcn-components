@@ -81,6 +81,8 @@ export const loginUser = async (req: Request, res: Response) => {
             signed:true
         });
 
+        console.log("hehe working tada");
+
         const token = createToken(user._id.toString(), user.username, "7d");
         
         res.cookie("auth_token",token,{
@@ -96,7 +98,7 @@ export const loginUser = async (req: Request, res: Response) => {
         // await user.save();
 
         // Respond with success
-        return res.status(200).json({ message: "Login successful", username:user.username, role:user.role });
+        return res.status(200).json({ message: "Login successful", username:user.username });
     } catch (error) {
         console.error("Error logging in user:", error.message);
         return res.status(500).json({ message: "Server error. Please try again later." });
@@ -115,7 +117,7 @@ export const verifyUser = async (req:Request,res: Response,next: NextFunction) =
         if (user._id.toString()!== res.locals.jwtData.id){
             return res.status(401).send("Permissions didnt match");
         }
-        return res.status(200).json({ message: "Login successful", username:user.username, role:user.role });
+        return res.status(200).json({ message: "Login successful", username:user.username });
     } catch (error) {
         console.log(error);
         return res.status(200).json({message:"Error",cause: error.message});
@@ -140,7 +142,7 @@ export const userLogout = async (req:Request,res: Response,next: NextFunction) =
         path: "/",
       });
 
-      return res.status(200).json({ message: "Login successful", username:user.username, role:user.role });
+      return res.status(200).json({ message: "Login successful", username:user.username });
     } catch (error) {
       console.log(error);
       return res.status(200).json({message:"Error",cause: error.message});

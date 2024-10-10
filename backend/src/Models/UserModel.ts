@@ -4,7 +4,7 @@ import mongoose, { Document, Schema } from "mongoose";
 interface IUser extends Document {
     username: string;
     password: string;
-    role?: string;
+    // role?: string;
     loginTimestamps: Date[];
 }
 
@@ -20,10 +20,10 @@ const UserSchema: Schema<IUser> = new mongoose.Schema({
         type: String,
         required: true,
     },
-    role: {
-        type: String,
-        default: 'user',
-    },
+    // role: {
+    //     type: String,
+    //     default: 'user',
+    // },
     loginTimestamps: {
         type: [Date],
         default: [],
