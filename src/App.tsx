@@ -11,11 +11,14 @@ import  InterviewStudentList from './components/interview-student-list'
 import { AdminStudentDashboard } from './components/AdminStudentDashboard'
 import { LoginPageComponent } from './components/login-page'
 import { InterviewComponent } from './components/InterviewComponent'
+import { Layout } from './Layout'
+
 function App() {
 
   return (
     <>
       <Routes>
+        <Route path='/login' element={<LoginPageComponent/>} />
         <Route element={<NavbarComponent />}>
           <Route path='/' element={<InterviewDashboard />} />
           <Route path='/profile' element={<ProfileSection />} />
@@ -25,7 +28,7 @@ function App() {
           <Route path='/student-list' element={<Studentlist/>} />
           <Route path='/interview-student-list' element={<InterviewStudentList/>} />
           <Route path='/students' element={<AdminStudentDashboard/>}/>
-          <Route path='login' element={<LoginPageComponent/>} />
+          <Route path='/login' element={<LoginPageComponent/>} />
           <Route path="/interview" element={<InterviewComponent />} />
         </Route>
       </Routes>
