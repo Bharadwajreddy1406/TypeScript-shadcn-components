@@ -1,15 +1,25 @@
-import { useState, useEffect, useCallback, SetStateAction } from "react"
-import { motion, AnimatePresence } from "framer-motion"
-import { Search, Plus, Loader2, Play, Square, Trash2, ArrowRight, AlertTriangle, Eye } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
+import { useState, useEffect, useCallback, SetStateAction } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import {
+  Search,
+  Plus,
+  Loader2,
+  Play,
+  Square,
+  Trash2,
+  ArrowRight,
+  AlertTriangle,
+  Eye,
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
+} from "@/components/ui/select";
 import {
   Dialog,
   DialogContent,
@@ -18,9 +28,9 @@ import {
   DialogTrigger,
   DialogDescription,
   DialogFooter,
-} from "@/components/ui/dialog"
-import { Label } from "@/components/ui/label"
-import { Checkbox } from "@/components/ui/checkbox"
+} from "@/components/ui/dialog";
+import { Label } from "@/components/ui/label";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   Table,
   TableBody,
@@ -28,154 +38,265 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table"
+} from "@/components/ui/table";
 
 // Mock data for interviews
 const mockInterviews = [
-  { id: 1, name: "Frontend Developer Interview", subject: "JavaScript", branch: "Computer Science", section: "FS", status: "Scheduled" },
-  { id: 2, name: "Backend Developer Interview", subject: "Python", branch: "Information Technology", section: "Elite", status: "In Progress" },
-  { id: 3, name: "Full Stack Developer Interview", subject: "Java", branch: "Software Engineering", section: "PreFS", status: "Completed" },
+  {
+    id: 1,
+    name: "Frontend Developer Interview",
+    subject: "JavaScript",
+    branch: "Computer Science",
+    section: "FS",
+    status: "Scheduled",
+  },
+  {
+    id: 2,
+    name: "Backend Developer Interview",
+    subject: "Python",
+    branch: "Information Technology",
+    section: "Elite",
+    status: "In Progress",
+  },
+  {
+    id: 3,
+    name: "Full Stack Developer Interview",
+    subject: "Java",
+    branch: "Software Engineering",
+    section: "PreFS",
+    status: "Completed",
+  },
   // Add more mock interviews here...
-]
+];
 
-const subjects = ["JavaScript", "Python", "Java", "C++", "Ruby"]
-const branches = ["Computer Science", "Information Technology", "Software Engineering"]
-const sections = ["FS", "Elite", "PreFS"]
+const subjects = ["JavaScript", "Python", "Java", "C++", "Ruby"];
+const branches = [
+  "Computer Science",
+  "Information Technology",
+  "Software Engineering",
+];
+const sections = ["FS", "Elite", "PreFS"];
 
 export function InterviewDashboard() {
-  const [interviews, setInterviews] = useState(mockInterviews)
-  const [searchTerm, setSearchTerm] = useState("")
-  const [sortBy, setSortBy] = useState<keyof typeof mockInterviews[0]>("name")
-  const [itemsPerPage, setItemsPerPage] = useState(10)
-  const [currentPage, setCurrentPage] = useState(1)
-  const [isLoading, setIsLoading] = useState(false)
-  const [isMobile, setIsMobile] = useState(false)
-  const [isDialogOpen, setIsDialogOpen] = useState(false)
-  const [loadingStates, setLoadingStates] = useState<{ [key: number]: { start?: boolean; end?: boolean; delete?: boolean } }>({})
-  const [restartDialogOpen, setRestartDialogOpen] = useState(false)
-  const [interviewToRestart, setInterviewToRestart] = useState<{ id: number; name: string; subject: string; branch: string; section: string; status: string } | null>(null)
-  const [viewDialogOpen, setViewDialogOpen] = useState(false)
-  const [selectedInterview, setSelectedInterview] = useState<{ id: number; name: string; subject: string; branch: string; section: string; status: string } | null>(null)
+  const [interviews, setInterviews] = useState(mockInterviews);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [sortBy, setSortBy] =
+    useState<keyof (typeof mockInterviews)[0]>("name");
+  const [itemsPerPage, setItemsPerPage] = useState(10);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [loadingStates, setLoadingStates] = useState<{
+    [key: number]: { start?: boolean; end?: boolean; delete?: boolean };
+  }>({});
+  const [restartDialogOpen, setRestartDialogOpen] = useState(false);
+  const [interviewToRestart, setInterviewToRestart] = useState<{
+    id: number;
+    name: string;
+    subject: string;
+    branch: string;
+    section: string;
+    status: string;
+  } | null>(null);
+  const [viewDialogOpen, setViewDialogOpen] = useState(false);
+  const [selectedInterview, setSelectedInterview] = useState<{
+    id: number;
+    name: string;
+    subject: string;
+    branch: string;
+    section: string;
+    status: string;
+  } | null>(null);
 
   useEffect(() => {
-    const checkIsMobile = () => setIsMobile(window.innerWidth < 768)
-    checkIsMobile()
-    window.addEventListener('resize', checkIsMobile)
-    return () => window.removeEventListener('resize', checkIsMobile)
-  }, [])
+    const checkIsMobile = () => setIsMobile(window.innerWidth < 768);
+    checkIsMobile();
+    window.addEventListener("resize", checkIsMobile);
+    return () => window.removeEventListener("resize", checkIsMobile);
+  }, []);
 
-  const handleCreateInterview = (newInterview: { name: string; subject: string; branch: string; section: string }) => {
-    setInterviews([...interviews, { ...newInterview, id: interviews.length + 1, status: "Scheduled" }])
-    setIsDialogOpen(false)
-  }
+  const handleCreateInterview = (newInterview: {
+    name: string;
+    subject: string;
+    branch: string;
+    section: string;
+  }) => {
+    setInterviews([
+      ...interviews,
+      { ...newInterview, id: interviews.length + 1, status: "Scheduled" },
+    ]);
+    setIsDialogOpen(false);
+  };
 
-  const handleStartInterview = useCallback((id: number) => {
-    const interview = interviews.find(i => i.id === id)
-    if (interview && interview.status === "Completed") {
-      setInterviewToRestart(interview)
-      setRestartDialogOpen(true)
-    } else {
-      simulateLoading(() => {
-        setInterviews(interviews => interviews.map(interview => 
-          interview.id === id ? { ...interview, status: "In Progress" } : interview
-        ))
-      }, id, 'start')
-    }
-  }, [interviews])
+  const handleStartInterview = useCallback(
+    (id: number) => {
+      const interview = interviews.find((i) => i.id === id);
+      if (interview && interview.status === "Completed") {
+        setInterviewToRestart(interview);
+        setRestartDialogOpen(true);
+      } else {
+        simulateLoading(
+          () => {
+            setInterviews((interviews) =>
+              interviews.map((interview) =>
+                interview.id === id
+                  ? { ...interview, status: "In Progress" }
+                  : interview
+              )
+            );
+          },
+          id,
+          "start"
+        );
+      }
+    },
+    [interviews]
+  );
 
   const handleRestartInterview = () => {
     if (interviewToRestart) {
-      simulateLoading(() => {
-        setInterviews(interviews => interviews.map(interview => 
-          interview.id === interviewToRestart.id ? { ...interview, status: "In Progress" } : interview
-        ))
-        setRestartDialogOpen(false)
-        setInterviewToRestart(null)
-      }, interviewToRestart.id, 'start')
+      simulateLoading(
+        () => {
+          setInterviews((interviews) =>
+            interviews.map((interview) =>
+              interview.id === interviewToRestart.id
+                ? { ...interview, status: "In Progress" }
+                : interview
+            )
+          );
+          setRestartDialogOpen(false);
+          setInterviewToRestart(null);
+        },
+        interviewToRestart.id,
+        "start"
+      );
     }
-  }
+  };
 
   const handleEndInterview = useCallback((id: number) => {
-    simulateLoading(() => {
-      setInterviews(interviews => interviews.map(interview => 
-        interview.id === id ? { ...interview, status: "Completed" } : interview
-      ))
-    }, id, 'end')
-  }, [])
+    simulateLoading(
+      () => {
+        setInterviews((interviews) =>
+          interviews.map((interview) =>
+            interview.id === id
+              ? { ...interview, status: "Completed" }
+              : interview
+          )
+        );
+      },
+      id,
+      "end"
+    );
+  }, []);
 
-  const handleDeleteInterview = useCallback((id:number) => {
-    simulateLoading(() => {
-      setInterviews(interviews => interviews.filter(interview => interview.id !== id))
-    }, id, 'delete')
-  }, [])
+  const handleDeleteInterview = useCallback((id: number) => {
+    simulateLoading(
+      () => {
+        setInterviews((interviews) =>
+          interviews.filter((interview) => interview.id !== id)
+        );
+      },
+      id,
+      "delete"
+    );
+  }, []);
 
-  const handleViewInterview = useCallback((interview: { id: number; name: string; subject: string; branch: string; section: string; status: string }) => {
-    setSelectedInterview(interview)
-    setViewDialogOpen(true)
-  }, [])
+  const handleViewInterview = useCallback(
+    (interview: {
+      id: number;
+      name: string;
+      subject: string;
+      branch: string;
+      section: string;
+      status: string;
+    }) => {
+      setSelectedInterview(interview);
+      setViewDialogOpen(true);
+    },
+    []
+  );
 
-  const filteredInterviews = interviews.filter(interview => 
-    interview.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    interview.subject.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    interview.branch.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    interview.section.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    interview.status.toLowerCase().includes(searchTerm.toLowerCase())
-  )
+  const filteredInterviews = interviews.filter(
+    (interview) =>
+      interview.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      interview.subject.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      interview.branch.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      interview.section.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      interview.status.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   const sortedInterviews = filteredInterviews.sort((a, b) => {
-    if (sortBy === 'status') {
-      const statusOrder = { 'Scheduled': 1, 'In Progress': 2, 'Completed': 3 }
-      return statusOrder[a.status as keyof typeof statusOrder] - statusOrder[b.status as keyof typeof statusOrder]
+    if (sortBy === "status") {
+      const statusOrder = { Scheduled: 1, "In Progress": 2, Completed: 3 };
+      return (
+        statusOrder[a.status as keyof typeof statusOrder] -
+        statusOrder[b.status as keyof typeof statusOrder]
+      );
     }
-    return String(a[sortBy]).localeCompare(String(b[sortBy]))
-  })
+    return String(a[sortBy]).localeCompare(String(b[sortBy]));
+  });
 
   const paginatedInterviews = sortedInterviews.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
-  )
+  );
 
-  const pageCount = Math.ceil(sortedInterviews.length / itemsPerPage)
+  const pageCount = Math.ceil(sortedInterviews.length / itemsPerPage);
 
   const handleSearch = () => {
-    setIsLoading(true)
+    setIsLoading(true);
     setTimeout(() => {
-      setCurrentPage(1)
-      setIsLoading(false)
-    }, 1000)
-  }
+      setCurrentPage(1);
+      setIsLoading(false);
+    }, 1000);
+  };
 
-  const handleSearchInputChange = (e: { target: { value: SetStateAction<string> } }) => {
-    setSearchTerm(e.target.value)
-  }
+  const handleSearchInputChange = (e: {
+    target: { value: SetStateAction<string> };
+  }) => {
+    setSearchTerm(e.target.value);
+  };
 
   const handleSearchKeyPress = (e: { key: string }) => {
-    if (e.key === 'Enter') {
-      handleSearch()
+    if (e.key === "Enter") {
+      handleSearch();
     }
-  }
+  };
 
-  const handleSort = (value: "id" | "name" | "subject" | "branch" | "section" | "status") => {
-    setIsLoading(true)
+  const handleSort = (
+    value: "id" | "name" | "subject" | "branch" | "section" | "status"
+  ) => {
+    setIsLoading(true);
     setTimeout(() => {
-      setSortBy(value)
-      setCurrentPage(1)
-      setIsLoading(false)
-    }, 500)
-  }
+      setSortBy(value);
+      setCurrentPage(1);
+      setIsLoading(false);
+    }, 500);
+  };
 
   const handleItemsPerPageChange = (value: any) => {
-    setItemsPerPage(Number(value))
-    setCurrentPage(1)
-  }
+    setItemsPerPage(Number(value));
+    setCurrentPage(1);
+  };
 
-  const simulateLoading = (callback: { (): void; (): void; (): void; (): void; (): void }, id: number, action: string) => {
-    setLoadingStates(prev => ({ ...prev, [id]: { ...prev[id], [action]: true } }))
+  const simulateLoading = (
+    callback: { (): void; (): void; (): void; (): void; (): void },
+    id: number,
+    action: string
+  ) => {
+    setLoadingStates((prev) => ({
+      ...prev,
+      [id]: { ...prev[id], [action]: true },
+    }));
     setTimeout(() => {
-      callback()
-      setLoadingStates(prev => ({ ...prev, [id]: { ...prev[id], [action]: false } }))
-    }, 1000)
-  }
+      callback();
+      setLoadingStates((prev) => ({
+        ...prev,
+        [id]: { ...prev[id], [action]: false },
+      }));
+    }, 1000);
+  };
 
   const renderInterviewRows = () => {
     if (paginatedInterviews.length === 0) {
@@ -186,7 +307,7 @@ export function InterviewDashboard() {
             No interviews are present
           </TableCell>
         </TableRow>
-      )
+      );
     }
 
     const rows = paginatedInterviews.map((interview) => (
@@ -196,11 +317,15 @@ export function InterviewDashboard() {
         <TableCell>{interview.branch}</TableCell>
         <TableCell>{interview.section}</TableCell>
         <TableCell>
-          <span className={`px-2 py-1 rounded-full text-xs font-semibold ${
-            interview.status === "Scheduled" ? "bg-yellow-200 text-yellow-800" :
-            interview.status === "In Progress" ? "bg-blue-200 text-blue-800" :
-            "bg-green-200 text-green-800"
-          }`}>
+          <span
+            className={`px-2 py-1 rounded-full text-xs font-semibold ${
+              interview.status === "Scheduled"
+                ? "bg-yellow-200 text-yellow-800"
+                : interview.status === "In Progress"
+                ? "bg-blue-200 text-blue-800"
+                : "bg-green-200 text-green-800"
+            }`}
+          >
             {interview.status}
           </span>
         </TableCell>
@@ -209,16 +334,30 @@ export function InterviewDashboard() {
             <Button
               size="sm"
               onClick={() => handleStartInterview(interview.id)}
-              disabled={interview.status === "In Progress" || loadingStates[interview.id]?.start}
+              disabled={
+                interview.status === "In Progress" ||
+                loadingStates[interview.id]?.start
+              }
             >
-              {loadingStates[interview.id]?.start ? <Loader2 className="h-4 w-4 animate-spin" /> : <Play className="h-4 w-4" />}
+              {loadingStates[interview.id]?.start ? (
+                <Loader2 className="h-4 w-4 animate-spin" />
+              ) : (
+                <Play className="h-4 w-4" />
+              )}
             </Button>
             <Button
               size="sm"
               onClick={() => handleEndInterview(interview.id)}
-              disabled={interview.status !== "In Progress" || loadingStates[interview.id]?.end}
+              disabled={
+                interview.status !== "In Progress" ||
+                loadingStates[interview.id]?.end
+              }
             >
-              {loadingStates[interview.id]?.end ? <Loader2 className="h-4 w-4 animate-spin" /> : <Square className="h-4 w-4" />}
+              {loadingStates[interview.id]?.end ? (
+                <Loader2 className="h-4 w-4 animate-spin" />
+              ) : (
+                <Square className="h-4 w-4" />
+              )}
             </Button>
             <Button
               size="sm"
@@ -226,32 +365,40 @@ export function InterviewDashboard() {
               onClick={() => handleDeleteInterview(interview.id)}
               disabled={loadingStates[interview.id]?.delete}
             >
-              {loadingStates[interview.id]?.delete ? <Loader2 className="h-4 w-4 animate-spin" /> : <Trash2 className="h-4 w-4" />}
+              {loadingStates[interview.id]?.delete ? (
+                <Loader2 className="h-4 w-4 animate-spin" />
+              ) : (
+                <Trash2 className="h-4 w-4" />
+              )}
             </Button>
             <Button
               size="sm"
               variant="outline"
               onClick={() => handleViewInterview(interview)}
+              disabled={interview.status === "Scheduled"}
+              className={
+                interview.status === "Scheduled" ? "cursor-not-allowed" : ""
+              }
             >
               View
             </Button>
           </div>
         </TableCell>
       </TableRow>
-    ))
+    ));
 
     // Add empty rows to maintain consistent table size
-    const emptyRows = 10 - rows.length
+    const emptyRows = 10 - rows.length;
     for (let i = 0; i < emptyRows; i++) {
       rows.push(
         <TableRow key={`empty-${i}`}>
           <TableCell colSpan={7}>&nbsp;</TableCell>
         </TableRow>
-      )
+      );
     }
 
-    return rows
-  }
+    return rows;
+  };
 
   return (
     <div className="container mx-auto p-4 pt-16 space-y-4 font-inter">
@@ -292,7 +439,9 @@ export function InterviewDashboard() {
           </Select>
           <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
             <DialogTrigger asChild>
-              <Button><Plus className="mr-2 h-4 w-4" /> Create Interview</Button>
+              <Button>
+                <Plus className="mr-2 h-4 w-4" /> Create Interview
+              </Button>
             </DialogTrigger>
             <DialogContent>
               <DialogHeader>
@@ -343,14 +492,15 @@ export function InterviewDashboard() {
                 <TableHead>Actions</TableHead>
               </TableRow>
             </TableHeader>
-            <TableBody>
-              {renderInterviewRows()}
-            </TableBody>
+            <TableBody>{renderInterviewRows()}</TableBody>
           </Table>
         </div>
       )}
       <div className="flex justify-between items-center mt-4">
-        <Select onValueChange={handleItemsPerPageChange} defaultValue={itemsPerPage.toString()}>
+        <Select
+          onValueChange={handleItemsPerPageChange}
+          defaultValue={itemsPerPage.toString()}
+        >
           <SelectTrigger className="w-[180px]">
             <SelectValue placeholder="Interviews per page" />
           </SelectTrigger>
@@ -361,7 +511,6 @@ export function InterviewDashboard() {
           </SelectContent>
         </Select>
         <div className="flex gap-2">
-          
           {Array.from({ length: pageCount }, (_, i) => i + 1).map((page) => (
             <Button
               key={page}
@@ -382,7 +531,12 @@ export function InterviewDashboard() {
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>
-            <Button variant="outline" onClick={() => setRestartDialogOpen(false)}>Cancel</Button>
+            <Button
+              variant="outline"
+              onClick={() => setRestartDialogOpen(false)}
+            >
+              Cancel
+            </Button>
             <Button onClick={handleRestartInterview}>Restart</Button>
           </DialogFooter>
         </DialogContent>
@@ -394,11 +548,21 @@ export function InterviewDashboard() {
           </DialogHeader>
           {selectedInterview && (
             <div className="space-y-4">
-              <p><strong>Name:</strong> {selectedInterview.name}</p>
-              <p><strong>Subject:</strong> {selectedInterview.subject}</p>
-              <p><strong>Branch:</strong> {selectedInterview.branch}</p>
-              <p><strong>Section:</strong> {selectedInterview.section}</p>
-              <p><strong>Status:</strong> {selectedInterview.status}</p>
+              <p>
+                <strong>Name:</strong> {selectedInterview.name}
+              </p>
+              <p>
+                <strong>Subject:</strong> {selectedInterview.subject}
+              </p>
+              <p>
+                <strong>Branch:</strong> {selectedInterview.branch}
+              </p>
+              <p>
+                <strong>Section:</strong> {selectedInterview.section}
+              </p>
+              <p>
+                <strong>Status:</strong> {selectedInterview.status}
+              </p>
             </div>
           )}
           <DialogFooter>
@@ -407,35 +571,45 @@ export function InterviewDashboard() {
         </DialogContent>
       </Dialog>
     </div>
-  )
+  );
 }
 
 interface CreateInterviewFormProps {
-  onSubmit: (newInterview: { name: string; subject: string; branch: string; section: string }) => void;
+  onSubmit: (newInterview: {
+    name: string;
+    subject: string;
+    branch: string;
+    section: string;
+  }) => void;
 }
 
 function CreateInterviewForm({ onSubmit }: CreateInterviewFormProps) {
-  const [name, setName] = useState("")
-  const [selectedSubjects, setSelectedSubjects] = useState<string[]>([])
-  const [branch, setBranch] = useState("")
-  const [section, setSection] = useState("")
+  const [name, setName] = useState("");
+  const [selectedSubjects, setSelectedSubjects] = useState<string[]>([]);
+  const [branch, setBranch] = useState("");
+  const [section, setSection] = useState("");
 
   const handleSubmit = (e: { preventDefault: () => void }) => {
-    e.preventDefault()
+    e.preventDefault();
     if (name && selectedSubjects.length > 0 && branch && section) {
-      onSubmit({ name, subject: selectedSubjects.join(", "), branch, section })
-      setName("")
-      setSelectedSubjects([])
-      setBranch("")
-      setSection("")
+      onSubmit({ name, subject: selectedSubjects.join(", "), branch, section });
+      setName("");
+      setSelectedSubjects([]);
+      setBranch("");
+      setSection("");
     }
-  }
+  };
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       <div>
         <Label htmlFor="name">Interview Name</Label>
-        <Input id="name" value={name} onChange={(e) => setName(e.target.value)} required />
+        <Input
+          id="name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          required
+        />
       </div>
       <div>
         <Label>Subjects</Label>
@@ -450,7 +624,7 @@ function CreateInterviewForm({ onSubmit }: CreateInterviewFormProps) {
                     checked
                       ? [...selectedSubjects, subject]
                       : selectedSubjects.filter((s) => s !== subject)
-                  )
+                  );
                 }}
                 required={selectedSubjects.length === 0}
               />
@@ -467,7 +641,9 @@ function CreateInterviewForm({ onSubmit }: CreateInterviewFormProps) {
           </SelectTrigger>
           <SelectContent>
             {branches.map((branch) => (
-              <SelectItem key={branch} value={branch}>{branch}</SelectItem>
+              <SelectItem key={branch} value={branch}>
+                {branch}
+              </SelectItem>
             ))}
           </SelectContent>
         </Select>
@@ -480,14 +656,21 @@ function CreateInterviewForm({ onSubmit }: CreateInterviewFormProps) {
           </SelectTrigger>
           <SelectContent>
             {sections.map((section) => (
-              <SelectItem key={section} value={section}>{section}</SelectItem>
+              <SelectItem key={section} value={section}>
+                {section}
+              </SelectItem>
             ))}
           </SelectContent>
         </Select>
       </div>
-      <Button type="submit" disabled={!name || selectedSubjects.length === 0 || !branch || !section}>Create Interview</Button>
+      <Button
+        type="submit"
+        disabled={!name || selectedSubjects.length === 0 || !branch || !section}
+      >
+        Create Interview
+      </Button>
     </form>
-  )
+  );
 }
 
 interface Interview {
@@ -499,7 +682,21 @@ interface Interview {
   status: string;
 }
 
-function InterviewCard({ interview, onStart, onEnd, onDelete, onView, loadingStates }: { interview: Interview; onStart: (id: number) => void; onEnd: (id: number) => void; onDelete: (id: number) => void; onView: (interview: Interview) => void; loadingStates: { start?: boolean; end?: boolean; delete?: boolean } }) {
+function InterviewCard({
+  interview,
+  onStart,
+  onEnd,
+  onDelete,
+  onView,
+  loadingStates,
+}: {
+  interview: Interview;
+  onStart: (id: number) => void;
+  onEnd: (id: number) => void;
+  onDelete: (id: number) => void;
+  onView: (interview: Interview) => void;
+  loadingStates: { start?: boolean; end?: boolean; delete?: boolean };
+}) {
   return (
     <motion.div
       className="bg-white bg-opacity-20 backdrop-blur-lg backdrop-filter border border-gray-200 p-6 rounded-lg shadow-xl"
@@ -508,33 +705,66 @@ function InterviewCard({ interview, onStart, onEnd, onDelete, onView, loadingSta
     >
       <h3 className="text-lg font-semibold mb-2">{interview.name}</h3>
       <p className="text-sm text-gray-600 dark:text-gray-300 mb-4">
-        Subject: {interview.subject}<br />
-        Branch: {interview.branch}<br />
+        Subject: {interview.subject}
+        <br />
+        Branch: {interview.branch}
+        <br />
         Section: {interview.section}
       </p>
       <div className="flex items-center justify-between mb-4">
-        <span className={`px-2 py-1 rounded-full text-xs font-semibold ${
-          interview.status === "Scheduled" ? "bg-yellow-200 text-yellow-800" :
-          interview.status === "In Progress" ? "bg-blue-200 text-blue-800" :
-          "bg-green-200 text-green-800"
-        }`}>
+        <span
+          className={`px-2 py-1 rounded-full text-xs font-semibold ${
+            interview.status === "Scheduled"
+              ? "bg-yellow-200 text-yellow-800"
+              : interview.status === "In Progress"
+              ? "bg-blue-200 text-blue-800"
+              : "bg-green-200 text-green-800"
+          }`}
+        >
           {interview.status}
         </span>
-        <Button variant="destructive" size="sm" onClick={() => onDelete(interview.id)} disabled={loadingStates.delete}>
-          {loadingStates.delete ? <Loader2 className="h-4 w-4 animate-spin" /> : "Delete"}
+        <Button
+          variant="destructive"
+          size="sm"
+          onClick={() => onDelete(interview.id)}
+          disabled={loadingStates.delete}
+        >
+          {loadingStates.delete ? (
+            <Loader2 className="h-4 w-4 animate-spin" />
+          ) : (
+            "Delete"
+          )}
         </Button>
       </div>
       <div className="flex justify-between">
-        <Button onClick={() => onStart(interview.id)} disabled={interview.status === "In Progress" || loadingStates.start}>
-          {loadingStates.start ? <Loader2 className="h-4 w-4 animate-spin" /> : "Start Interview"}
+        <Button
+          onClick={() => onStart(interview.id)}
+          disabled={interview.status === "In Progress" || loadingStates.start}
+        >
+          {loadingStates.start ? (
+            <Loader2 className="h-4 w-4 animate-spin" />
+          ) : (
+            "Start Interview"
+          )}
         </Button>
-        <Button onClick={() => onEnd(interview.id)} disabled={interview.status !== "In Progress" || loadingStates.end}>
-          {loadingStates.end ? <Loader2 className="h-4 w-4 animate-spin" /> : "End Interview"}
+        <Button
+          onClick={() => onEnd(interview.id)}
+          disabled={interview.status !== "In Progress" || loadingStates.end}
+        >
+          {loadingStates.end ? (
+            <Loader2 className="h-4 w-4 animate-spin" />
+          ) : (
+            "End Interview"
+          )}
         </Button>
       </div>
-      <Button className="w-full mt-4" variant="outline" onClick={() => onView(interview)}>
+      <Button
+        className="w-full mt-4"
+        variant="outline"
+        onClick={() => onView(interview)}
+      >
         <Eye className="h-4 w-4 mr-2" /> View Details
       </Button>
     </motion.div>
-  )
+  );
 }
