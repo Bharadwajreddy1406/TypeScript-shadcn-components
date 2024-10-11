@@ -10,4 +10,4 @@ userRouter.post("/login",validate(loginValidator),loginUser);
 userRouter.get("/auth-status",verifyToken,verifyUser);
 userRouter.get("/logout",verifyToken,userLogout);
 
-export default userRouter
+export default userRouter;

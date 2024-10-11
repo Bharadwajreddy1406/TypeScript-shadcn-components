@@ -11,6 +11,12 @@ import  InterviewStudentList from './components/interview-student-list'
 import { AdminStudentDashboard } from './components/AdminStudentDashboard'
 import { LoginPageComponent } from './components/login-page'
 import {InterviewComponent} from './components/InterviewComponent'
+import axios from 'axios'
+
+axios.defaults.baseURL = 'http://localhost:5000/api/v1'
+axios.defaults.withCredentials = true
+
+
 function App() {
 
   return (
