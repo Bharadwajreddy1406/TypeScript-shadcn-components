@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import { useNavigate } from 'react-router-dom'
 
 interface Student {
   id: string
@@ -15,6 +16,7 @@ interface Student {
 }
 
 export default function AdminStudentManagement() {
+  const navigate = useNavigate()
   const [students, setStudents] = useState<Student[]>([])
   const [searchTerm, setSearchTerm] = useState('')
   const [studentsPerPage, setStudentsPerPage] = useState(25)
@@ -201,7 +203,7 @@ export default function AdminStudentManagement() {
                             <Trash2 className="h-4 w-4 text-red-500" />
                             </Button>
                             <Button
-                            onClick={() => handleView(student.id)}
+                            onClick={() => navigate(`/view-student`)}
                             className="bg-gray-800 text-white hover:bg-gray-700 px-3 py-1 rounded h-8"
                             >
                             View
