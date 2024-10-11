@@ -13,6 +13,7 @@ import { LoginPageComponent } from './components/login-page';
 import { InterviewComponent } from './components/InterviewComponent';
 import axios from 'axios';
 import { useAuth } from './Context/AuthContext';
+import ViewStudent from './components/ViewStudent';
 
 axios.defaults.baseURL = 'http://localhost:5000/api/v1';
 axios.defaults.withCredentials = true;
@@ -37,6 +38,8 @@ function App() {
               <Route path="/student-list" element={<Studentlist />} />
               <Route path="/interview-student-list" element={<InterviewStudentList />} />
               <Route path="/students" element={<AdminStudentDashboard />} />
+              <Route path='/view-student' element={<ViewStudent/>}/>
+
               <Route path="/interview" element={<InterviewComponent />} />
             </>
           )}
