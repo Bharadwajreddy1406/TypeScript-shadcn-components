@@ -1,5 +1,4 @@
-import mongoose from "mongoose";
-import e, { NextFunction, Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import UserModel from "../Models/UserModel.js";
 import bcrypt from "bcrypt";
 import { createToken } from "../utils/token_manager.js";
@@ -65,19 +64,19 @@ export const loginUser = async (req: Request, res: Response) => {
             return res.status(400).json({ message: "Invalid credentials" });
         }
 
-        res.clearCookie("auth_token", {
+        res.clearCookie(process.env.COOKIE_SECRET, {
             httpOnly: true,
             path: "/",
             domain: "localhost",
             signed: true
         });
 
-        const token = createToken(user._id.toString(), user.rollnumber, "7d");
+        const token = createToken(user._id.toString(),user.rollnumber,user.role, "1h");
 
-        res.cookie("auth_token", token, {
+        res.cookie(process.env.COOKIE_SECRET, token, {
             path: "/",   // where the cookie is stored
             domain: "localhost",  // where the cookie is sent
-            expires: new Date(Date.now() + 1000 * 60 * 60 * 2),
+            expires: new Date(Date.now() + 1000* 60 * 60 * 2),
             httpOnly: true,
             signed: true,
         });

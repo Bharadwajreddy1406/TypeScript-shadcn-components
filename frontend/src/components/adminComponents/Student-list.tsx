@@ -166,16 +166,16 @@ export default function AdminStudentManagement() {
           <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-gray-800"></div>
         </div>
       ) : (
-        <div className="bg-white rounded-lg shadow-md overflow-hidden" style={{ height: '50vh' }}>
+        <div className="bg-white rounded-lg shadow-md overflow-hidden" style={{ height: '60vh' }}>
           <div className="overflow-auto h-full">
             <Table>
               <TableHeader>
                 <TableRow className="bg-gray-200">
-                  <TableHead className="text-gray-700">Roll Number</TableHead>
-                  <TableHead className="text-gray-700">Name</TableHead>
-                  <TableHead className="text-gray-700">Branch</TableHead>
-                  <TableHead className="text-gray-700">Year</TableHead>
-                  <TableHead className="text-gray-700">Actions</TableHead>
+                  <TableHead className="text-gray-700 text-center">Roll Number</TableHead>
+                  <TableHead className="text-gray-700 text-center ">Name</TableHead>
+                  <TableHead className="text-gray-700 text-center ">Branch</TableHead>
+                  {/* <TableHead className="text-gray-700 text-center ">Year</TableHead> */}
+                  <TableHead className="text-gray-700 text-center">Actions</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -189,12 +189,12 @@ export default function AdminStudentManagement() {
                       transition={{ duration: 0.2 }}
                       className="hover:bg-gray-100"
                     >
-                      <TableCell className="text-gray-800">{student.rollNumber}</TableCell>
-                      <TableCell className="text-gray-800">{student.name}</TableCell>
-                      <TableCell className="text-gray-800">{student.branch}</TableCell>
-                      <TableCell className="text-gray-800">{student.year}</TableCell>
+                      <TableCell className="text-gray-800  text-center ">{student.rollNumber}</TableCell>
+                      <TableCell className="text-gray-800  text-center ">{student.name}</TableCell>
+                      <TableCell className="text-gray-800  text-center ">{student.branch}</TableCell>
+                      {/* <TableCell className="text-gray-800">{student.year}</TableCell> */}
                       <TableCell>
-                        <div className="flex items-center justify-center items-center space-x-2">
+                        <div className="flex  justify-center items-start space-x-2">
                             <Button
                             variant="ghost"
                             onClick={() => handleDelete(student.id)}
@@ -203,7 +203,7 @@ export default function AdminStudentManagement() {
                             <Trash2 className="h-4 w-4 text-red-500" />
                             </Button>
                             <Button
-                            onClick={() => navigate(`/view-student`)}
+                            onClick={() => navigate(`/admin/view-student`)}
                             className="bg-gray-800 text-white hover:bg-gray-700 px-3 py-1 rounded h-8"
                             >
                             View

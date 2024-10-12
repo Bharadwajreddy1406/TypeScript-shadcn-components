@@ -22,7 +22,7 @@ export const validate = (validations:ValidationChain[])=>{
 
 
 export const loginValidator = [
-    body("username").trim().isLength({min:3}).withMessage("username is required"),
+    body("rollnumber").trim().isLength({min:3}).withMessage("username is required"),
     body("password").trim().isLength({min:3}).withMessage("Password should contain atleast 6 charecters"),
 ];
 

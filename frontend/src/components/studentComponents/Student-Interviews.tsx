@@ -12,6 +12,7 @@ interface Interview {
 }
 
 export function StudentInterviews() {
+  console.log("opened student interviews");
   const [interviews, setInterviews] = useState<Interview[]>([
     { id: '1', title: 'Interview -01', topic: 'Python', status: 'ready' },
     { id: '2', title: 'Interview -02', topic: 'Java', status: 'scheduled' },

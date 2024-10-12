@@ -22,7 +22,7 @@ const UserSchema: Schema<IUser> = new mongoose.Schema({
     role: {
         type: String,
         required: true,
-        default: 'user',
+        default: 'student',
     },
 //     loginTimestamps: {
 //         type: [Date],

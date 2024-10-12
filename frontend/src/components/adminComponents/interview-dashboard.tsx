@@ -39,6 +39,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { useNavigate } from "react-router-dom";
+
 
 // Mock data for interviews
 const mockInterviews = [
@@ -108,6 +110,7 @@ export function InterviewDashboard() {
     section: string;
     status: string;
   } | null>(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const checkIsMobile = () => setIsMobile(window.innerWidth < 768);
@@ -202,20 +205,23 @@ export function InterviewDashboard() {
     );
   }, []);
 
-  const handleViewInterview = useCallback(
-    (interview: {
-      id: number;
-      name: string;
-      subject: string;
-      branch: string;
-      section: string;
-      status: string;
-    }) => {
-      setSelectedInterview(interview);
-      setViewDialogOpen(true);
-    },
-    []
-  );
+  const handleViewInterview = () => {
+    navigate("/admin/interview-student-list");
+  };
+  // const handleViewInterview = useCallback(
+  //   (interview: {
+  //     id: number;
+  //     name: string;
+  //     subject: string;
+  //     branch: string;
+  //     section: string;
+  //     status: string;
+  //   }) => {
+  //     setSelectedInterview(interview);
+  //     setViewDialogOpen(true);
+  //   },
+  //   []
+  // );
 
   const filteredInterviews = interviews.filter(
     (interview) =>
@@ -312,11 +318,11 @@ export function InterviewDashboard() {
 
     const rows = paginatedInterviews.map((interview) => (
       <TableRow key={interview.id}>
-        <TableCell>{interview.name}</TableCell>
-        <TableCell>{interview.subject}</TableCell>
-        <TableCell>{interview.branch}</TableCell>
-        <TableCell>{interview.section}</TableCell>
-        <TableCell>
+        <TableCell className="text-center">{interview.name}</TableCell>
+        <TableCell className="text-center">{interview.subject}</TableCell>
+        <TableCell className="text-center">{interview.branch}</TableCell>
+        <TableCell className="text-center">{interview.section}</TableCell>
+         <TableCell className="text-center align-middle">
           <span
             className={`px-2 py-1 rounded-full text-xs font-semibold ${
               interview.status === "Scheduled"
@@ -329,8 +335,8 @@ export function InterviewDashboard() {
             {interview.status}
           </span>
         </TableCell>
-        <TableCell>
-          <div className="flex space-x-2">
+        <TableCell className="text-center align-middle">
+          <div className="flex justify-center space-x-5">
             <Button
               size="sm"
               onClick={() => handleStartInterview(interview.id)}
@@ -374,7 +380,7 @@ export function InterviewDashboard() {
             <Button
               size="sm"
               variant="outline"
-              onClick={() => handleViewInterview(interview)}
+              onClick={() => handleViewInterview()} 
               disabled={interview.status === "Scheduled"}
               className={
                 interview.status === "Scheduled" ? "cursor-not-allowed" : ""
@@ -404,11 +410,12 @@ export function InterviewDashboard() {
     <div className="container mx-auto p-4 pt-16 space-y-4 font-inter">
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
-        body {
-          font-family: 'Inter', sans-serif;
+        bimport { useNavigate } from 'react-router-dom';
+ody {
+          font-family: 'Roboto', sans-serif;
         }
       `}</style>
-      <h1 className="text-2xl font-bold mb-4">Interview Dashboard</h1>
+      <h1 className="text-3xl font-bold mb-4">Interview Dashboard</h1>
       <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
         <div className="relative w-full sm:w-64 flex">
           <Input
@@ -484,12 +491,12 @@ export function InterviewDashboard() {
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>Name</TableHead>
-                <TableHead>Subject</TableHead>
-                <TableHead>Branch</TableHead>
-                <TableHead>Section</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead>Actions</TableHead>
+                <TableHead className="text-center">Name</TableHead>
+                <TableHead className="text-center">Subject</TableHead>
+                <TableHead className="text-center">Branch</TableHead>
+                <TableHead className="text-center">Section</TableHead>
+                <TableHead className="text-center">Status</TableHead>
+                <TableHead className="text-center">Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>{renderInterviewRows()}</TableBody>

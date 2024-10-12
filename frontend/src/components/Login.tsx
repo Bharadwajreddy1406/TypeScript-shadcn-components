@@ -1,20 +1,30 @@
-import React, { useState } from 'react'
-import { motion } from 'framer-motion'
-import { Eye, EyeOff } from 'lucide-react'
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+import React, { useState } from 'react';
+import { motion } from 'framer-motion';
+import { Eye, EyeOff } from 'lucide-react';
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { useAuth } from '@/Context/AuthContext'; // Import useAuth
+import { useNavigate } from 'react-router-dom';
 
 export function LoginPageComponent() {
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
-  const [showPassword, setShowPassword] = useState(false)
+  console.log("In Login");
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const { login } = useAuth(); // Use the login function from AuthContext
+  const navigate = useNavigate();
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    // Handle login logic here
-    console.log('Login attempted with:', { username, password })
-  }
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      await login(username, password); // Call the login function
+      console.log('Login successful');
+      navigate('/');
+    } catch (error) {
+      console.error('Login failed: mowa');
+    }
+  };
 
   return (
     <div className="relative min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
@@ -30,7 +40,7 @@ export function LoginPageComponent() {
         <div>
           <img
             className="mx-auto h-20 w-auto"
-            src="./public/Logo.png"
+            src="Logo.png"
             alt="Tesseract Logo"
           />
         </div>
@@ -93,5 +103,5 @@ export function LoginPageComponent() {
         </div>
       </motion.div>
     </div>
-  )
+  );
 }

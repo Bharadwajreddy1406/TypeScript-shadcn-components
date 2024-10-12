@@ -1,6 +1,6 @@
 import React from 'react';
-import { NavbarComponent } from './navbar';
-import { InterviewDashboard } from './interview-dashboard';
+import { NavbarComponent } from './adminComponents/AdminNavbar';
+import { InterviewDashboard } from './adminComponents/interview-dashboard';
 
 const Tempo: React.FC = () => {
     return (

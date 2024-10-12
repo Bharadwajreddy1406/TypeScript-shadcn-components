@@ -32,10 +32,17 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     // Fetch if the user's cookies are valid then skip login
     async function checkStatus() {
-      const data = await checkAuthStatus();
-      if (data) {
-        setUser({ rollnumber: data.rollnumber, role: data.role });
-        setIsLoggedIn(true);
+      try {
+        const data = await checkAuthStatus();
+        if (data) {
+          setUser({ rollnumber: data.rollnumber, role: data.role });
+          setIsLoggedIn(true);
+        } else {
+          setIsLoggedIn(false);
+        }
+      } catch (error) {
+        console.error("Error checking auth status:", error);
+        setIsLoggedIn(false);
       }
     }
     checkStatus();
