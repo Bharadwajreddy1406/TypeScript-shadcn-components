@@ -30,12 +30,12 @@ const communicationSkills = [
 ]
 
 const weeklyPerformance = [
-  { week: 'Week 1', score: 75 },
-  { week: 'Week 2', score: 82 },
-  { week: 'Week 3', score: 78 },
-  { week: 'Week 4', score: 85 },
-  { week: 'Week 5', score: 89 },
-  { week: 'Week 6', score: 92 },
+  { week: 'Interview 1', score: 75 },
+  { week: 'Interview 2', score: 82 },
+  { week: 'Interview 3', score: 78 },
+  { week: 'Interview 4', score: 85 },
+  { week: 'Interview 5', score: 89 },
+  { week: 'Interview 6', score: 92 },
 ]
 
 const proficiencyLevels = [

@@ -11,7 +11,7 @@ interface Interview {
 
 const mockInterviews: Interview[] = [
   { id: '1', name: 'Frontend Developer Interview', status: 'Completed', score: 85 },
-  { id: '2', name: 'Backend Developer Interview', status: 'In Progress' },
+  { id: '2', name: 'Backend Developer Interview', status: 'Not Attended' },
   { id: '3', name: 'Full Stack Developer Interview', status: 'Not Attended' },
   { id: '4', name: 'DevOps Engineer Interview', status: 'Completed', score: 92 },
   { id: '5', name: 'UI/UX Designer Interview', status: 'Not Attended' },

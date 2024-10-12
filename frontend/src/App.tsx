@@ -9,7 +9,7 @@ import Studentlist from './components/adminComponents/Student-list';
 import InterviewStudentList from './components/adminComponents/interview-student-list';
 import { AdminStudentDashboard } from './components/adminComponents/AdminStudentDashboard';
 import { LoginPageComponent } from './components/Login';
-import { InterviewComponent } from './components/studentComponents/InterviewComponent';
+import  {InterviewComponent}  from './components/studentComponents/InterviewComponent';
 import axios from 'axios';
 import { useAuth } from './Context/AuthContext';
 import { Header } from './components/shared/Header';
