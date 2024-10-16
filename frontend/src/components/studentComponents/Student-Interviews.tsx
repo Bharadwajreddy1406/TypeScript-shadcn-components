@@ -3,10 +3,12 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { RefreshCw, Loader2 } from 'lucide-react'
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { useNavigate } from 'react-router-dom'
 
 interface Interview {
   id: string
   title: string
+  subject: string
   topic: string
   status: 'ready' | 'scheduled' | 'completed'
 }
@@ -14,12 +16,14 @@ interface Interview {
 export function StudentInterviews() {
   console.log("opened student interviews");
   const [interviews, setInterviews] = useState<Interview[]>([
-    { id: '1', title: 'Interview -01', topic: 'Python', status: 'ready' },
-    { id: '2', title: 'Interview -02', topic: 'Java', status: 'scheduled' },
-    { id: '3', title: 'Interview -01', topic: 'Magic', status: 'completed' },
+    { id: '1', title: 'Interview -01', subject: 'Python', topic: 'Lambda Functions', status: 'ready' },
+    { id: '2', title: 'Interview -02', subject: 'Java', topic: 'Polymorphism', status: 'scheduled' },
+    // { id: '3', title: 'Interview -03', subject: 'C', topic: 'Pointers', status: 'completed' },
+    { id: '4', title: 'Interview -04', subject: 'Python', topic: 'Lambda Functions', status: 'ready' },
   ])
   const [isLoading, setIsLoading] = useState(false)
   const [isRefreshing, setIsRefreshing] = useState(false)
+  const navigate = useNavigate();
 
   const refreshInterviews = () => {
     setIsRefreshing(true)
@@ -33,8 +37,16 @@ export function StudentInterviews() {
     setIsLoading(true)
     setTimeout(() => {
       setIsLoading(false)
+      navigate('/student/interview')
     }, 2000)
   }
+
+  // Sort interviews so that 'ready' ones come first
+  const sortedInterviews = [...interviews].sort((a, b) => {
+    if (a.status === 'ready' && b.status !== 'ready') return -1;
+    if (a.status !== 'ready' && b.status === 'ready') return 1;
+    return 0;
+  });
 
   return (
     <div className="container mx-auto px-4 pt-20 pb-8 font-sans">
@@ -69,7 +81,7 @@ export function StudentInterviews() {
         transition={{ duration: 0.5, delay: 0.2 }}
         className="space-y-4"
       >
-        {interviews.map((interview, index) => (
+        {sortedInterviews.map((interview, index) => (
           <motion.div
             key={interview.id}
             initial={{ opacity: 0, y: 20 }}
@@ -94,7 +106,10 @@ export function StudentInterviews() {
               </CardHeader>
               <CardContent className="p-6">
                 <div className="flex flex-row justify-between items-center">
-                  <p className="text-gray-600">Topic: {interview.topic}</p>
+                  <div className='flex flex-col gap-4 '>
+                  <p className="text-gray-600"><b>Subject</b>: {interview.subject}</p>
+                  <p className="text-gray-600"><b>Topic</b>: {interview.topic}</p>
+                  </div>
                   <span className={`px-3 py-1 rounded-full text-sm font-medium ${
                     interview.status === 'ready' ? 'bg-blue-100 text-blue-800' :
                     interview.status === 'scheduled' ? 'bg-yellow-100 text-yellow-800' :

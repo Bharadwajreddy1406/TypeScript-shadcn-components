@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Mic, Send, ChevronDown, ChevronUp } from "lucide-react";
 import { Slider } from "@/components/ui/slider";
+import { useNavigate } from "react-router-dom";
 
 const questions = [
   "What is polymorphism in object-oriented programming?",
@@ -37,6 +38,7 @@ export function InterviewComponent() {
   const [codePanelWidth, setCodePanelWidth] = useState(25);
   const [isSpeechRecognitionActive, setIsSpeechRecognitionActive] =
     useState(false);
+    const navigate = useNavigate();
   const chatEndRef = useRef<HTMLDivElement>(null);
 
   // Initialize the first question only once when the component mounts
@@ -180,6 +182,12 @@ export function InterviewComponent() {
     }
   };
 
+  const handleSubmit = () => {
+    if (isInterviewComplete) {
+      navigate("/student/completed-interviews ");
+    }
+  };
+
   return (
     <div className="flex h-screen pt-20 bg-gray-100">
       <div
@@ -193,7 +201,7 @@ export function InterviewComponent() {
           </h1>
           <div className="flex items-center space-x-4">
             <span className="text-lg font-medium">Topic- Java</span>
-            <Button>Submit</Button>
+            <Button onClick={handleSubmit}>Submit</Button>
           </div>
         </div>
         <div className="flex-1 overflow-y-auto mb-6 bg-white rounded-lg shadow-md p-4">

@@ -6,11 +6,11 @@ import { Card, CardContent } from "@/components/ui/card"
 
 export function CompletedInterviews() {
   const interviews = [
-    { id: 1, title: "Interview -01", topic: "Python", score: 90 },
-    { id: 2, title: "Interview -01", topic: "Python", score: 90 },
-    { id: 3, title: "Interview -01", topic: "Python", score: 90 },
-    { id: 4, title: "Interview -01", topic: "Python", score: 90 },
-    { id: 5, title: "Interview -01", topic: "Python", score: 90 },
+    { id: 1, title: "Interview -01", subject: "Java", topic: "clouds", score: 90 },
+    { id: 2, title: "Interview -01", subject: "Java",topic: "clouds", score: 90 },
+    { id: 3, title: "Interview -01", subject: "Java",topic: "clouds", score: 90 },
+    { id: 4, title: "Interview -01", subject: "Java",topic: "clouds", score: 90 },
+    { id: 5, title: "Interview -01", subject: "Java",topic: "clouds", score: 90 },
   ]
 
   const containerVariants = {
@@ -51,7 +51,10 @@ export function CompletedInterviews() {
                 <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                   <div className="space-y-1">
                     <h2 className="text-lg font-semibold">{interview.title}</h2>
-                    <p className="text-sm text-muted-foreground">Topic: {interview.topic}</p>
+                    <div className="flex gap-4 flex-row">
+                    <p className="text-sm text-muted-foreground"><b>Subject</b>: {interview.subject}</p>
+                    <p className="text-sm text-muted-foreground"><b>Topic</b>: {interview.topic}</p>
+                    </div>
                   </div>
                   <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-4 w-full sm:w-auto">
                     <span className="inline-flex items-center rounded-full bg-secondary px-2.5 py-0.5 text-xs sm:text-sm font-medium text-secondary-foreground">

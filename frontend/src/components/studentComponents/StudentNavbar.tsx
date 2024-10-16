@@ -23,21 +23,21 @@ export function StudentNavbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [activeItem, setActiveItem] = useState('');
   const [isHoveringProfile, setIsHoveringProfile] = useState(false);
-  const [isHoveringStudents, setIsHoveringStudents] = useState(false);
+  // const [isHoveringStudents, setIsHoveringStudents] = useState(false);
   const hoverTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const handleMouseEnter = () => {
-    if (hoverTimeoutRef.current) {
-      clearTimeout(hoverTimeoutRef.current);
-    }
-    setIsHoveringStudents(true);
-  };
+  // const handleMouseEnter = () => {
+  //   if (hoverTimeoutRef.current) {
+  //     clearTimeout(hoverTimeoutRef.current);
+  //   }
+  //   setIsHoveringStudents(true);
+  // };
 
-  const handleMouseLeave = () => {
-    hoverTimeoutRef.current = setTimeout(() => {
-      setIsHoveringStudents(false);
-    }, 300); // Delay to allow moving to submenu
-  };
+  // const handleMouseLeave = () => {
+  //   hoverTimeoutRef.current = setTimeout(() => {
+  //     setIsHoveringStudents(false);
+  //   }, 300); // Delay to allow moving to submenu
+  // };
 
   return (
     <>
